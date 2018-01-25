@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Agrident Wedge Sample</string>
+    <string name="data_read_intent">Data read (intent):</string>
+    <string name="data_read_keyboard_wedge">Data read (keyboard wedge):</string>
+    <string name="no_data_read_yet">No data read yet</string>
+    <string name="no_data_read">No data read</string>
+</resources>
