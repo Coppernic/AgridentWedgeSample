@@ -9,12 +9,12 @@ Prerequisites
 -------------
 
 1. CpcSystemServices version 2.2.0 and above must be installed on the device
-2. Aghrident Wedge 2.0.0 and above must be installed on the device
+2. Agrident Wedge 2.0.0 and above must be installed on the device
 
 What is a keyboard wedge?
 -------------------------
 
-A keyboard wedge is an application that can acquire data and send it directlyu in the keyboard buffer, just as if it was typed on a virtual keyboard.
+A keyboard wedge is an application that can acquire data and send it directly in the keyboard buffer, just as if it was typed on a virtual keyboard.
 
 Coppernic's wedge applications add a deeper integration capability by using intents too in order to send reader's events (succesful read or read failure).
 
