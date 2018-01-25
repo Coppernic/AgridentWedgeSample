@@ -28,6 +28,25 @@ Using Agrident Wedge as a regular keyboard wedge
 Using Agrident Wedge with intents
 ---------------------------------
 
+- For this example, Coppernic Utility library is used. You must declare it in build.gradle.
+
+``` groovy
+// At project level
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven { url "https://artifactory.coppernic.fr/artifactory/libs-release" }
+    }
+}
+```
+
+``` groovy
+// At module level
+implementation(group: 'fr.coppernic.sdk.cpcutils', name: 'CpcUtilsLib', version: '6.13.0', ext: 'aar')
+```
+
+
 - Declare a broadcast receiver in your class, it will receive the intents from the Agrident Wedge application.
 
 ``` groovy
