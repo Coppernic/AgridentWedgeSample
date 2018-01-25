@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
                 String dataRead = intent.getStringExtra(CpcDefinitions.KEY_BARCODE_DATA);
                 tvDataReadValue.setText(dataRead);
             } else if (intent.getAction().equals(CpcDefinitions.ACTION_AGRIDENT_ERROR)) {
-                // Displsy no data read in intent edit text
+                // Displays no data read in intent edit text
                 tvDataReadValue.setText(R.string.no_data_read);
             }
         }
