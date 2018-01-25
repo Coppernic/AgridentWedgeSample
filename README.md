@@ -69,4 +69,4 @@ protected void onStop() {
 }
 ```
 
-Taht's it!
+That's it!
