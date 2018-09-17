@@ -4,4 +4,9 @@
     <string name="data_read_keyboard_wedge">Data read (keyboard wedge):</string>
     <string name="no_data_read_yet">No data read yet</string>
     <string name="no_data_read">No data read</string>
+    <string name="action_tune">tune</string>
+    <string name="title_activity_sample">SampleActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>

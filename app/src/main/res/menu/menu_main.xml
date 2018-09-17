@@ -2,5 +2,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="fr.coppernic.samples.agridentwedge.MainActivity">
-
+    <item
+        android:id="@+id/action_tune"
+        android:icon="@drawable/ic_tune_white_24dp"
+        android:orderInCategory="100"
+        android:title="@string/action_tune"
+        app:showAsAction="ifRoom" />
 </menu>
