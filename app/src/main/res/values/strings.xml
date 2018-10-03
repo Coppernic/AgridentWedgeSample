@@ -5,8 +5,31 @@
     <string name="no_data_read_yet">No data read yet</string>
     <string name="no_data_read">No data read</string>
     <string name="action_tune">tune</string>
-    <string name="title_activity_sample">SampleActivity</string>
+    <string name="title_activity_sample">Agrident tools</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="n_a">N/A</string>
+    <string name="hdx_freq">HDX Freq :</string>
+    <string name="hdx_rssi">HDX RSSI :</string>
+    <string name="fdx_rssi">FDX RSSI :</string>
+    <string name="rssi">RSSI :</string>
+    <string name="amplitude">Amplitude :</string>
+    <string name="serial_number">Serial Number :</string>
+    <string name="firmware">Firmware :</string>
+    <string name="tag_type">Tag type :</string>
+    <string name="timeout">Timeout</string>
+    <string name="baudrate">Baudrate</string>
+    <string name="delay_time">Delay time :</string>
+    <string name="output">Output :</string>
+
+    <string-array name="baudrate_entries">
+        <item>9600</item>
+        <item>19200</item>
+        <item>38400</item>
+        <item>57600</item>
+        <item>115200</item>
+    </string-array>
 </resources>
