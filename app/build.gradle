@@ -1,4 +1,26 @@
+plugins {
+    id "fr.coppernic.versioning" version "3.1.2"
+}
+
 apply plugin: 'com.android.application'
+apply plugin: 'fr.coppernic.extensions'
+
+copper {
+
+    projectName = "AgridentWedgeSample"
+
+    publications {
+        artiConfig = project.hasProperty('artiServer') ? project.artiServer : "arti01"
+    }
+}
+
+apply plugin: 'fr.coppernic.android'
+
+repositories {
+    google()
+    jcenter()
+    maven { url "https://artifactory.coppernic.fr/artifactory/libs-release" }
+}
 
 android {
     compileSdkVersion 27
@@ -6,9 +28,11 @@ android {
         applicationId "fr.coppernic.samples.agridentwedge"
         minSdkVersion 17
         targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        versionCode versioning.info.versionCode
+        versionName versioning.info.display
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
         vectorDrawables.useSupportLibrary true
     }
     buildTypes {
@@ -21,20 +45,26 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.android.support:design:27.1.1'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation 'com.android.support:cardview-v7:27.1.1'
+
+    // UI
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    implementation(group: 'fr.coppernic.sdk.cpcutils', name: 'CpcUtilsLib', version: '6.17.0', ext: 'aar')
-    implementation 'fr.coppernic.sdk.agrident:CpcAgrident:2.0.2'
+
     // Timber
     implementation 'com.jakewharton.timber:timber:4.7.0'
+
     // Coppernic
-    implementation 'fr.coppernic.sdk.cpcutils:CpcUtilsLib:6.17.2'
-    implementation 'fr.coppernic.sdk.core:CpcCore:1.8.2'
+    implementation 'fr.coppernic.sdk.cpcutils:CpcUtilsLib:6.18.1'
+    implementation 'fr.coppernic.sdk.core:CpcCore:1.8.4'
+    implementation 'fr.coppernic.sdk.agrident:CpcAgrident:2.0.2'
+
+    testImplementation 'junit:junit:4.12'
+
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
