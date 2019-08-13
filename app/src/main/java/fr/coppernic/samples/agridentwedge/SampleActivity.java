@@ -41,12 +41,12 @@ import fr.coppernic.sdk.agrident.Parameters;
 import fr.coppernic.sdk.agrident.Reader;
 import fr.coppernic.sdk.agrident.ReaderFactory;
 import fr.coppernic.sdk.agrident.ReaderInformation;
+import fr.coppernic.sdk.core.Defines;
 import fr.coppernic.sdk.power.PowerManager;
 import fr.coppernic.sdk.power.api.PowerListener;
 import fr.coppernic.sdk.power.api.peripheral.Peripheral;
 import fr.coppernic.sdk.power.impl.cone.ConePeripheral;
 import fr.coppernic.sdk.utils.core.CpcBytes;
-import fr.coppernic.sdk.utils.core.CpcDefinitions;
 import fr.coppernic.sdk.utils.core.CpcResult;
 import fr.coppernic.sdk.utils.io.InstanceListener;
 import timber.log.Timber;
@@ -190,7 +190,7 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
         Timber.d("onStart");
         Intent intent = new Intent();
         intent.setPackage("fr.coppernic.tools.cpcagridentwedge");
-        intent.setComponent(new ComponentName("fr.coppernic.tools.cpcagridentwedge","fr.coppernic.tools.cpcagridentwedge.service.WedgeService" ));
+        intent.setComponent(new ComponentName("fr.coppernic.tools.cpcagridentwedge", "fr.coppernic.tools.cpcagridentwedge.service.WedgeService"));
         intent.setAction(ACTION_SERVICE_STOP);
         startService(intent);
         SystemClock.sleep(1000);
@@ -204,17 +204,17 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
     }
 
     @OnClick(R.id.btnOpenClose)
-    void OpenClose(){
+    void OpenClose() {
         if (reader != null) {
             if (!isPortOpened) {
                 int baudRate = Integer.valueOf(spBaudrate.getSelectedItem().toString());
 
-                CpcResult.RESULT res = reader.open(CpcDefinitions.AGRIDENT_READER_PORT, baudRate);
+                CpcResult.RESULT res = reader.open(Defines.SerialDefines.AGRIDENT_READER_PORT, baudRate);
 
                 if (res == CpcResult.RESULT.OK) {
                     btnOpenClose.setText(R.string.close);
                     isPortOpened = true;
-                    if(CpcResult.RESULT.OK != reader.sendCommand(Commands.GET_RF_ACTIVATION_CMD)){
+                    if (CpcResult.RESULT.OK != reader.sendCommand(Commands.GET_RF_ACTIVATION_CMD)) {
                         addLog("Fail to get RFID field state", false);
                     }
                 } else {
@@ -229,121 +229,120 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
     }
 
     @OnClick(R.id.btnClear)
-    void clear(){
+    void clear() {
         tvMessage.setText("");
     }
 
     @OnClick(R.id.btnGetFirmware)
-    void displayFirmware(){
+    void displayFirmware() {
         reader.sendCommand(Commands.FIRMWARE_CMD);
     }
 
     @OnClick(R.id.btnGetSerialNumber)
-    void displaySN(){
+    void displaySN() {
         reader.sendCommand(Commands.SNR_CMD);
     }
 
     @OnClick(R.id.btnGetAmplitude)
-    void displayAmplitude(){
+    void displayAmplitude() {
         reader.sendCommand(Commands.GET_AMPLITUDE_CMD);
     }
 
     @OnClick(R.id.btnGetRssi)
-    void displayRSSI(){
+    void displayRSSI() {
         reader.sendCommand(Commands.GET_RSSI_CMD);
     }
 
     @OnClick(R.id.btnGetFDXRssi)
-    void displayFdxRssi(){
+    void displayFdxRssi() {
         reader.sendCommand(Commands.GET_AVERAGE_FDX_RSSI_CMD);
     }
 
     @OnClick(R.id.btnGetHDXRssi)
-    void displayHdxRssi(){
+    void displayHdxRssi() {
         reader.sendCommand(Commands.GET_AVERAGE_HDX_RSSI_CMD);
     }
 
     @OnClick(R.id.btnGetHDXFreq)
-    void displayHdxFreq(){
+    void displayHdxFreq() {
         reader.sendCommand(Commands.GET_AVERAGE_HDX_FRQ_CMD);
     }
 
     @OnClick(R.id.btnEditOutput)
-    void editOutput(){
-        showDialog(new Parameters(Parameters.OUTPUT_FORMAT),tvOutput, OutputFormat.ASCII,"Output Format");
+    void editOutput() {
+        showDialog(new Parameters(Parameters.OUTPUT_FORMAT), tvOutput, OutputFormat.ASCII, "Output Format");
     }
 
     @OnClick(R.id.btnGetOutput)
-    void getOutputFormat(){
+    void getOutputFormat() {
         currentParam = new Parameters(Parameters.OUTPUT_FORMAT);
         reader.getConfig(new Parameters(Parameters.OUTPUT_FORMAT));
     }
 
     @OnClick(R.id.btnEditTagType)
-    void editTagType(){
-        showDialog(new Parameters(Parameters.TAG_TYPE),tvTagType, TagTypes.FDX_B, "Tag Type");
+    void editTagType() {
+        showDialog(new Parameters(Parameters.TAG_TYPE), tvTagType, TagTypes.FDX_B, "Tag Type");
     }
 
     @OnClick(R.id.btnGetTagType)
-    void getTagType(){
+    void getTagType() {
         currentParam = new Parameters(Parameters.TAG_TYPE);
         reader.getConfig(new Parameters(Parameters.TAG_TYPE));
     }
 
     @OnClick(R.id.btnEditTimeout)
-    void editTimeout(){
-        showDialog(new Parameters(Parameters.TIMING),tvTimeout, Timing.VARIABLE_TIMING, "Timing");
+    void editTimeout() {
+        showDialog(new Parameters(Parameters.TIMING), tvTimeout, Timing.VARIABLE_TIMING, "Timing");
     }
 
     @OnClick(R.id.btnGetTimeout)
-    void getTimeout(){
+    void getTimeout() {
         currentParam = new Parameters(Parameters.TIMING);
         reader.getConfig(new Parameters(Parameters.TIMING));
     }
 
     @OnClick(R.id.btnEditBaudrate)
-    void editBaudrate(){
-        showDialog(new Parameters(Parameters.BAUDRATE),tvBaudrate, BaudRate.B9600, "BaudRate");
+    void editBaudrate() {
+        showDialog(new Parameters(Parameters.BAUDRATE), tvBaudrate, BaudRate.B9600, "BaudRate");
     }
 
     @OnClick(R.id.btnGetBaudrate)
-    void getBaudrate(){
+    void getBaudrate() {
         currentParam = new Parameters(Parameters.BAUDRATE);
         reader.getConfig(new Parameters(Parameters.BAUDRATE));
     }
 
     @OnClick(R.id.btnEditDelayTime)
-    void editDelayTime(){
-        showDialog(new Parameters(Parameters.DELAYTIME),tvDelayTime, null, "Delay Time");
+    void editDelayTime() {
+        showDialog(new Parameters(Parameters.DELAYTIME), tvDelayTime, null, "Delay Time");
     }
 
     @OnClick(R.id.btnGetDelayTime)
-    void getDelayTime(){
+    void getDelayTime() {
         currentParam = new Parameters(Parameters.DELAYTIME);
         reader.getConfig(new Parameters(Parameters.DELAYTIME));
     }
 
     @OnCheckedChanged(R.id.swRFField)
-    void SwitchRfChange(){
-        if(swRFIDField.isChecked()){
+    void SwitchRfChange() {
+        if (swRFIDField.isChecked()) {
             reader.sendCommand(Commands.SET_RF_ON_CMD);
-        }else{
+        } else {
             reader.sendCommand(Commands.SET_RF_OFF_CMD);
         }
     }
 
-    void showDialog(final Parameters param, final TextView tv, final Object enumObject, String title){
+    void showDialog(final Parameters param, final TextView tv, final Object enumObject, String title) {
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(this);
         final EditText input = new EditText(this);
 
 
-        final Spinner spinner= new Spinner(this);
+        final Spinner spinner = new Spinner(this);
         //display spinner depending of parameter
-        if(enumObject == null){
+        if (enumObject == null) {
             input.setText(tv.getText());
-        }
-        else if (enumObject instanceof OutputFormat) {
+        } else if (enumObject instanceof OutputFormat) {
             ArrayAdapter<OutputFormat> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, OutputFormat.values());
             spinner.setAdapter(adapter);
             try {
@@ -355,8 +354,7 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
             } catch (Exception ex) {
                 Timber.d(ex);
             }
-        }
-        else if(enumObject instanceof TagTypes){
+        } else if (enumObject instanceof TagTypes) {
             ArrayAdapter<TagTypes> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, TagTypes.values());
             spinner.setAdapter(adapter);
             try {
@@ -368,8 +366,7 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
             } catch (Exception ex) {
                 Timber.d(ex);
             }
-        }
-        else if (enumObject instanceof BaudRate){
+        } else if (enumObject instanceof BaudRate) {
             ArrayAdapter<BaudRate> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, BaudRate.values());
             spinner.setAdapter(adapter);
             try {
@@ -381,8 +378,7 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
             } catch (Exception ex) {
                 Timber.d(ex);
             }
-        }
-        else if(enumObject instanceof Timing){
+        } else if (enumObject instanceof Timing) {
             ArrayAdapter<Timing> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, Timing.values());
             spinner.setAdapter(adapter);
             try {
@@ -396,11 +392,10 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
             }
         }
 
-        if(enumObject == null){
+        if (enumObject == null) {
             builder.setView(input);
             builder.setMessage("Enter hexadecimal value");
-        }
-        else{
+        } else {
             builder.setView(spinner);
             builder.setMessage("Select value");
         }
@@ -411,26 +406,25 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 byte result;
-                if(enumObject == null){
+                if (enumObject == null) {
                     try {
                         result = (byte) Integer.parseInt(input.getText().toString(), 16);
-                    } catch(Exception ex){
+                    } catch (Exception ex) {
                         Timber.d(ex);
-                        Toast.makeText(context,"Enter valid hexadecimal value", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Enter valid hexadecimal value", Toast.LENGTH_LONG).show();
                         return;
                     }
-                }else {
+                } else {
                     result = getByteFromEnum(enumObject, spinner.getSelectedItem().toString());
                 }
                 param.setValue(result);
-                if(reader.setConfig(param) == CpcResult.RESULT.OK) {
-                    if(enumObject == null) {
+                if (reader.setConfig(param) == CpcResult.RESULT.OK) {
+                    if (enumObject == null) {
                         tv.setText(input.getText());
-                    }
-                    else {
+                    } else {
                         tv.setText(spinner.getSelectedItem().toString());
                     }
-                }else{
+                } else {
                     addLog("Set config NOK", false);
                 }
             }
@@ -462,7 +456,7 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
 
     @Override
     public void onSerialNumberReceived(final String s, CpcResult.RESULT result) {
-        updateTextView(tvSerialNumber,s);
+        updateTextView(tvSerialNumber, s);
     }
 
     @Override
@@ -478,7 +472,7 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
                 if (result == CpcResult.RESULT.OK) {
                     currentParam.setValue(b);
                     updateParameterValue();
-                }else {
+                } else {
                     addLog("Fail to get Setting", false);
                 }
             }
@@ -493,11 +487,11 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
     @Override
     public void onReaderInformationReceived(ReaderInformation readerInformation, int i) {
         Log.d("SampleACtivity", "name : " + readerInformation.name() + "value" + readerInformation.toString());
-        switch (readerInformation.name()){
+        switch (readerInformation.name()) {
             case "AMPLITUDE":
                 updateTextView(tvAmplitude, i + "mV");
                 break;
-            case"RSSI":
+            case "RSSI":
                 updateTextView(tvRSSI, i + " mv");
                 break;
             case "AVERAGE_HDX_FREQ":
@@ -517,7 +511,7 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
     public void onPowerUp(CpcResult.RESULT res, Peripheral peripheral) {
         // Gets Reader instance
         Timber.d("onPowerUp!!!!!!");
-        ReaderFactory.getInstance(this,this);
+        ReaderFactory.getInstance(this, this);
     }
 
     @Override
@@ -528,15 +522,15 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
     private void handleMessage(AgridentMessage agridentMsg) {
         MessageType msg = agridentMsg.getMessageType();
 
-        if(msg != MessageType.RFID_READ_SUCCESS){
+        if (msg != MessageType.RFID_READ_SUCCESS) {
             lastTagId = "";
         }
 
-        switch(msg){
+        switch (msg) {
             case RFID_READ_SUCCESS:
                 DataBlock sDataRead;
                 sDataRead = agridentMsg.getTag();
-                if(null != sDataRead) {
+                if (null != sDataRead) {
                     if (isIso11784Format) {
                         ISO11784 myIso11784Data = new ISO11784();
                         if (CpcResult.RESULT.OK == myIso11784Data.parse(sDataRead.getTagData())) {
@@ -642,22 +636,22 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
 
             case SWITCH_RF_ON_OFF:
                 //TODO check if RF on or OFF
-                if(agridentMsg.isAck()){
+                if (agridentMsg.isAck()) {
                     addLog("RF Field Switched", false);
-                }else{
+                } else {
                     addLog("Switch ON/OFF RF Field command failed", false);
                 }
                 break;
             case GET_RF_STATE_RESULT:
-                if(agridentMsg.isAck()){
-                    if(1 == agridentMsg.getParameterValue()) {
+                if (agridentMsg.isAck()) {
+                    if (1 == agridentMsg.getParameterValue()) {
                         swRFIDField.setChecked(true);
                         addLog("RF is Activated", false);
-                    }else{
-                         swRFIDField.setChecked(false);
+                    } else {
+                        swRFIDField.setChecked(false);
                         addLog("RF is NOT Activated", false);
                     }
-                }else{
+                } else {
                     addLog("Failed to get RSSI", false);
                 }
                 break;
@@ -670,17 +664,17 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
                 }
                 break;
             case RESET_CONF_RESULT:
-                if(agridentMsg.isAck()){
-                   // etValue.setText(Integer.toHexString(agridentMsg.getParameterValue()));
+                if (agridentMsg.isAck()) {
+                    // etValue.setText(Integer.toHexString(agridentMsg.getParameterValue()));
                     addLog("All Settings are reset", false);
-                }else{
+                } else {
                     addLog("Fail to reset Settings", false);
                 }
                 break;
         }
     }
 
-    private void updateTextView(final TextView tv, final String value){
+    private void updateTextView(final TextView tv, final String value) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -689,12 +683,12 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
         });
     }
 
-    private void updateParameterValue(){
-        switch(currentParam.getAddress()){
+    private void updateParameterValue() {
+        switch (currentParam.getAddress()) {
             case Parameters.BAUDRATE:
                 BaudRate[] baudRates = BaudRate.values();
-                for(BaudRate baudRate  : baudRates) {
-                    if(baudRate.getValue() == currentParam.getValue())
+                for (BaudRate baudRate : baudRates) {
+                    if (baudRate.getValue() == currentParam.getValue())
                         updateTextView(tvBaudrate, baudRate.toString());
                 }
                 break;
@@ -703,64 +697,61 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
                 break;
             case Parameters.OUTPUT_FORMAT:
                 OutputFormat[] outputArray = OutputFormat.values();
-                for(OutputFormat output  : outputArray) {
-                    if(output.getValue() == currentParam.getValue())
+                for (OutputFormat output : outputArray) {
+                    if (output.getValue() == currentParam.getValue())
                         updateTextView(tvOutput, output.toString());
                 }
 
                 break;
             case Parameters.TAG_TYPE:
                 TagTypes[] tagTypes = TagTypes.values();
-                for(TagTypes tagType  : tagTypes) {
-                    if(tagType.getValue() == currentParam.getValue())
+                for (TagTypes tagType : tagTypes) {
+                    if (tagType.getValue() == currentParam.getValue())
                         updateTextView(tvTagType, tagType.toString());
                 }
                 break;
             case Parameters.TIMING:
                 Timing[] timings = Timing.values();
-                for(Timing timing  : timings) {
-                    if(timing.getValue() == currentParam.getValue())
+                for (Timing timing : timings) {
+                    if (timing.getValue() == currentParam.getValue())
                         updateTextView(tvTimeout, timing.toString());
                 }
                 break;
         }
     }
 
-    private byte getByteFromEnum(Object enumObject, String value){
-        if(enumObject instanceof  OutputFormat) {
+    private byte getByteFromEnum(Object enumObject, String value) {
+        if (enumObject instanceof OutputFormat) {
             return (OutputFormat.valueOf(value)).getValue();
-        }
-        else if(enumObject instanceof BaudRate){
+        } else if (enumObject instanceof BaudRate) {
             return (BaudRate.valueOf(value)).getValue();
-        }
-        else if(enumObject instanceof TagTypes){
+        } else if (enumObject instanceof TagTypes) {
             return (TagTypes.valueOf(value)).getValue();
-        }
-        else if(enumObject instanceof Timing){
+        } else if (enumObject instanceof Timing) {
             return (Timing.valueOf(value)).getValue();
-        }
-        else
+        } else
             return 0x00;
     }
 
     /**
      * Adds a line in the log Edit Text
+     *
      * @param s Text to be added
      */
-    private void addLog (String s, boolean isTagCount) {
+    private void addLog(String s, boolean isTagCount) {
 
         int maxLogLines = 2500;
         int linesToRemove = 500;
         String log;
         String previousLog = tvMessage.getText().toString();
 
-        if(previousLog.length()>maxLogLines){
+        if (previousLog.length() > maxLogLines) {
             previousLog = previousLog.substring(0, previousLog.length() - linesToRemove);
         }
 
         // If the log is a Tag count incrementation,
         // we remove the last line and add the new counter value.
-        if((previousLog.length()> 10)&&(isTagCount)) {
+        if ((previousLog.length() > 10) && (isTagCount)) {
             previousLog = previousLog.substring(previousLog.indexOf("\r\n"));
             log = s + previousLog;
             tvMessage.setText(log);
@@ -774,13 +765,13 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
     /**
      * Closes the Com port of the reader and switch off the Reader Power.
      */
-    private void closePort () {
+    private void closePort() {
         if (reader != null) {
             reader.close();
             btnOpenClose.setText(R.string.open);
             isPortOpened = false;
 
-           // ConePeripheral.RFID_AGRIDENT_ABR200_GPIO.off(this);
+            // ConePeripheral.RFID_AGRIDENT_ABR200_GPIO.off(this);
         }
     }
 }
