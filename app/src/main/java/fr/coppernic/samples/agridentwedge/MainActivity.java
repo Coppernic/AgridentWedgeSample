@@ -18,7 +18,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import fr.coppernic.sdk.utils.core.CpcDefinitions;
+import fr.coppernic.sdk.core.Defines;
 import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,11 +33,11 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             // Clears keyboard wedge edit text
             etDataRead.setText("");
-            if (intent.getAction().equals(CpcDefinitions.ACTION_AGRIDENT_SUCCESS)) {
+            if (intent.getAction().equals(Defines.IntentDefines.ACTION_AGRIDENT_SUCCESS)) {
                 // Displays data read in the intent edit text
-                String dataRead = intent.getStringExtra(CpcDefinitions.KEY_BARCODE_DATA);
+                String dataRead = intent.getStringExtra(Defines.Keys.KEY_BARCODE_DATA);
                 tvDataReadValue.setText(dataRead);
-            } else if (intent.getAction().equals(CpcDefinitions.ACTION_AGRIDENT_ERROR)) {
+            } else if (intent.getAction().equals(Defines.IntentDefines.ACTION_AGRIDENT_ERROR)) {
                 // Displays no data read in intent edit text
                 tvDataReadValue.setText(R.string.no_data_read);
             }
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_tune:
                 startActivity(new Intent(this, SampleActivity.class));
         }
@@ -76,8 +76,8 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         // Registers agrident wedge intent receiver
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(CpcDefinitions.ACTION_AGRIDENT_SUCCESS);
-        intentFilter.addAction(CpcDefinitions.ACTION_AGRIDENT_ERROR);
+        intentFilter.addAction(Defines.IntentDefines.ACTION_AGRIDENT_SUCCESS);
+        intentFilter.addAction(Defines.IntentDefines.ACTION_AGRIDENT_ERROR);
         registerReceiver(agridentReceiver, intentFilter);
     }
 
