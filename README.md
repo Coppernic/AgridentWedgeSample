@@ -8,8 +8,15 @@ This application demonstrates how to use the Agrident Wedge application on a C-O
 Prerequisites
 -------------
 
+### C-One
+
 1. CpcSystemServices version 2.2.0 and above must be installed on the device
 2. Agrident Wedge 2.0.0 and above must be installed on the device
+
+### C-One²
+
+1. CoreServices version 1.8.0 and above must be installed on the device
+2. Agrident Wedge 2.2.0 and above must be installed on the device
 
 What is a keyboard wedge?
 -------------------------
@@ -49,7 +56,7 @@ implementation(group: 'fr.coppernic.sdk.cpcutils', name: 'CpcUtilsLib', version:
 
 - Declare a broadcast receiver in your class, it will receive the intents from the Agrident Wedge application.
 
-``` groovy
+``` java
 private BroadcastReceiver agridentReceiver = new BroadcastReceiver() {
     @Override
     public void onReceive(Context context, Intent intent) {        
@@ -65,7 +72,7 @@ private BroadcastReceiver agridentReceiver = new BroadcastReceiver() {
 
 - Register the receiver, for example in onStart
 
-``` groovy
+``` java
 @Override
 protected void onStart() {
     super.onStart();
@@ -79,7 +86,7 @@ protected void onStart() {
 
 - And unregister it, in onStop for example
 
-``` groovy
+``` java
 @Override
 protected void onStop() {
     // Unregisters agrident wedge receiver
@@ -88,4 +95,26 @@ protected void onStop() {
 }
 ```
 
-That's it!
+- Trig a read
+
+```java
+private static final String AGRIDENT_WEDGE = "fr.coppernic.tools.cpcagridentwedge";
+
+// Starts Agrident wedge
+Intent launchIntent = getPackageManager().getLaunchIntentForPackage(AGRIDENT_WEDGE);
+if (launchIntent != null) {
+    startActivity(launchIntent);//null pointer check in case package name was not found
+}
+```
+
+if you don't want to declare CpcUtilsLib in your build, then here are
+string values : 
+
+```java
+public static final String ACTION_AGRIDENT_SUCCESS = "fr.coppernic.intent.agridentsuccess";
+public static final String ACTION_AGRIDENT_ERROR = "fr.coppernic.intent.agridentfailed";
+public static final String ACTION_AGRIDENT_SERVICE_STOP = "fr.coppernic.intent.action.stop.agrident.service";
+public static final String ACTION_AGRIDENT_SERVICE_START = "fr.coppernic.intent.action.start.agrident.service";
+public static final String ACTION_AGRIDENT_READ = "fr.coppernic.tools.agrident.wedge.READ";
+public static final String KEY_BARCODE_DATA = "BarcodeData";
+```
