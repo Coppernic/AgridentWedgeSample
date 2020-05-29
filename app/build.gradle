@@ -56,18 +56,18 @@ dependencies {
     implementation 'com.android.support:cardview-v7:27.1.1'
 
     // UI
-    implementation 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation 'com.jakewharton:butterknife:10.2.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
 
     // Timber
-    implementation 'com.jakewharton.timber:timber:4.7.0'
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 
     // Coppernic
-    implementation 'fr.coppernic.sdk.cpcutils:CpcUtilsLib:6.18.4'
-    implementation 'fr.coppernic.sdk.core:CpcCore:1.8.16'
+    implementation 'fr.coppernic.sdk.cpcutils:CpcUtilsLib:6.19.1'
+    implementation 'fr.coppernic.sdk.core:CpcCore:1.10.2'
     implementation 'fr.coppernic.sdk.agrident:CpcAgrident:2.0.3'
-
-    testImplementation 'junit:junit:4.12'
+    compile(group: 'com.askey.mapping.lib', name: 'Remapping', version: '1.1.0', ext: 'aar')
+    testImplementation 'junit:junit:4.13'
 
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
