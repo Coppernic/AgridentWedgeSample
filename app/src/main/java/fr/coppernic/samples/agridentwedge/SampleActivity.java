@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
@@ -51,7 +52,8 @@ import fr.coppernic.sdk.utils.core.CpcResult;
 import fr.coppernic.sdk.utils.io.InstanceListener;
 import timber.log.Timber;
 
-public class SampleActivity extends AppCompatActivity implements PowerListener, InstanceListener<Reader>, OnDataReceivedListener {
+public class SampleActivity extends AppCompatActivity implements PowerListener,
+        InstanceListener<Reader>, OnDataReceivedListener {
 
     @BindView(R.id.tvMessage)
     TextView tvMessage;
@@ -139,8 +141,6 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
 
     private Parameters currentParam = null;
 
-    public static final String ACTION_SERVICE_STOP = "fr.coppernic.intent.action.stop.agrident.service";
-    public static final String ACTION_SERVICE_START = "fr.coppernic.intent.action.start.agrident.service";
     public Context context;
 
     @Override
@@ -190,9 +190,14 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
         Timber.d("onStart");
         Intent intent = new Intent();
         intent.setPackage("fr.coppernic.tools.cpcagridentwedge");
-        intent.setComponent(new ComponentName("fr.coppernic.tools.cpcagridentwedge", "fr.coppernic.tools.cpcagridentwedge.service.WedgeService"));
-        intent.setAction(ACTION_SERVICE_STOP);
-        startService(intent);
+        intent.setComponent(new ComponentName("fr.coppernic.tools.cpcagridentwedge", "fr" +
+                ".coppernic.tools.cpcagridentwedge.service.WedgeService"));
+        intent.setAction(Defines.IntentDefines.ACTION_AGRIDENT_SERVICE_STOP);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(intent);
+        } else {
+            startService(intent);
+        }
         SystemClock.sleep(1000);
     }
 
@@ -207,9 +212,10 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
     void OpenClose() {
         if (reader != null) {
             if (!isPortOpened) {
-                int baudRate = Integer.valueOf(spBaudrate.getSelectedItem().toString());
+                int baudRate = Integer.parseInt(spBaudrate.getSelectedItem().toString());
 
-                CpcResult.RESULT res = reader.open(Defines.SerialDefines.AGRIDENT_READER_PORT, baudRate);
+                CpcResult.RESULT res = reader.open(Defines.SerialDefines.AGRIDENT_READER_PORT,
+                        baudRate);
 
                 if (res == CpcResult.RESULT.OK) {
                     btnOpenClose.setText(R.string.close);
@@ -270,7 +276,8 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
 
     @OnClick(R.id.btnEditOutput)
     void editOutput() {
-        showDialog(new Parameters(Parameters.OUTPUT_FORMAT), tvOutput, OutputFormat.ASCII, "Output Format");
+        showDialog(new Parameters(Parameters.OUTPUT_FORMAT), tvOutput, OutputFormat.ASCII,
+                "Output Format");
     }
 
     @OnClick(R.id.btnGetOutput)
@@ -332,7 +339,8 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
         }
     }
 
-    void showDialog(final Parameters param, final TextView tv, final Object enumObject, String title) {
+    void showDialog(final Parameters param, final TextView tv, final Object enumObject,
+                    String title) {
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(this);
         final EditText input = new EditText(this);
@@ -343,7 +351,8 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
         if (enumObject == null) {
             input.setText(tv.getText());
         } else if (enumObject instanceof OutputFormat) {
-            ArrayAdapter<OutputFormat> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, OutputFormat.values());
+            ArrayAdapter<OutputFormat> adapter = new ArrayAdapter<>(this,
+                    android.R.layout.simple_spinner_item, OutputFormat.values());
             spinner.setAdapter(adapter);
             try {
                 OutputFormat output = OutputFormat.valueOf(tv.getText().toString());
@@ -355,7 +364,8 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
                 Timber.d(ex);
             }
         } else if (enumObject instanceof TagTypes) {
-            ArrayAdapter<TagTypes> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, TagTypes.values());
+            ArrayAdapter<TagTypes> adapter = new ArrayAdapter<>(this,
+                    android.R.layout.simple_spinner_item, TagTypes.values());
             spinner.setAdapter(adapter);
             try {
                 TagTypes tagTypes = TagTypes.valueOf(tv.getText().toString());
@@ -367,7 +377,8 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
                 Timber.d(ex);
             }
         } else if (enumObject instanceof BaudRate) {
-            ArrayAdapter<BaudRate> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, BaudRate.values());
+            ArrayAdapter<BaudRate> adapter = new ArrayAdapter<>(this,
+                    android.R.layout.simple_spinner_item, BaudRate.values());
             spinner.setAdapter(adapter);
             try {
                 BaudRate baudRate = BaudRate.valueOf(tv.getText().toString());
@@ -379,7 +390,8 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
                 Timber.d(ex);
             }
         } else if (enumObject instanceof Timing) {
-            ArrayAdapter<Timing> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, Timing.values());
+            ArrayAdapter<Timing> adapter = new ArrayAdapter<>(this,
+                    android.R.layout.simple_spinner_item, Timing.values());
             spinner.setAdapter(adapter);
             try {
                 Timing timing = Timing.valueOf(tv.getText().toString());
@@ -411,7 +423,8 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
                         result = (byte) Integer.parseInt(input.getText().toString(), 16);
                     } catch (Exception ex) {
                         Timber.d(ex);
-                        Toast.makeText(context, "Enter valid hexadecimal value", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Enter valid hexadecimal value",
+                                Toast.LENGTH_LONG).show();
                         return;
                     }
                 } else {
@@ -486,7 +499,8 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
 
     @Override
     public void onReaderInformationReceived(ReaderInformation readerInformation, int i) {
-        Log.d("SampleACtivity", "name : " + readerInformation.name() + "value" + readerInformation.toString());
+        Log.d("SampleACtivity",
+                "name : " + readerInformation.name() + "value" + readerInformation.toString());
         switch (readerInformation.name()) {
             case "AMPLITUDE":
                 updateTextView(tvAmplitude, i + "mV");
@@ -546,7 +560,7 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
                                     tagReadCount = 0;
                                     addLog("", false);
                                     addLog("TAG type : " + CpcBytes.byteArrayToString(sDataRead.getTagType(), sDataRead.getTagType().length), false);
-                                    addLog("Country : " + String.valueOf(myIso11784Data.getCountryCode()), false);
+                                    addLog("Country : " + myIso11784Data.getCountryCode(), false);
                                     addLog("TAG ID : " + lastTagId, false);
                                     addLog("ISO11784 standard :", false);
                                     addLog("Count : " + tagReadCount, false);
@@ -577,8 +591,10 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
                                 tagReadCount = 0;
                                 addLog("", false);
                                 try {
-                                    addLog("TAG type : " + new String(sDataRead.getTagType(), "UTF-8"), false);
-                                    addLog("Country : " + new String(myAsciiData.getCountryCode(), "UTF-8"), false);
+                                    addLog("TAG type : " + new String(sDataRead.getTagType(),
+                                            "UTF-8"), false);
+                                    addLog("Country : " + new String(myAsciiData.getCountryCode()
+                                            , "UTF-8"), false);
                                 } catch (UnsupportedEncodingException e) {
                                     e.printStackTrace();
                                 }
@@ -599,7 +615,8 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
                                     tagReadCount = 0;
                                 }
                             } else {
-                                lastTagId = CpcBytes.byteArrayToString(myCompactCodeData.getId(), myCompactCodeData.getId().length);
+                                lastTagId = CpcBytes.byteArrayToString(myCompactCodeData.getId(),
+                                        myCompactCodeData.getId().length);
                                 tagReadCount = 0;
                                 addLog("", false);
                                 addLog("TAG type : " + CpcBytes.byteArrayToString(sDataRead.getTagType(), sDataRead.getTagType().length), false);
@@ -612,14 +629,16 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
                             addLog("Fail to parse data", false);
                         }
                     } else {
-                        if (lastTagId.contains(CpcBytes.byteArrayToString(sDataRead.getTagData(), sDataRead.getTagData().length))) {
+                        if (lastTagId.contains(CpcBytes.byteArrayToString(sDataRead.getTagData(),
+                                sDataRead.getTagData().length))) {
                             tagReadCount++;
                             addLog("Count : " + tagReadCount, true);
                             if (tagReadCount == 999) {
                                 tagReadCount = 0;
                             }
                         } else {
-                            lastTagId = CpcBytes.byteArrayToString(sDataRead.getTagData(), sDataRead.getTagData().length);
+                            lastTagId = CpcBytes.byteArrayToString(sDataRead.getTagData(),
+                                    sDataRead.getTagData().length);
                             tagReadCount = 0;
                             addLog("", false);
                             addLog("TAG type : " + CpcBytes.byteArrayToString(sDataRead.getTagType(), sDataRead.getTagType().length), false);
@@ -631,7 +650,8 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
                 break;
             case RFID_UNKNOWN:
                 byte[] unknownFrame = agridentMsg.getData();
-                addLog("UNKNOWN READER OUTPUT : " + CpcBytes.byteArrayToString(unknownFrame, unknownFrame.length), false);
+                addLog("UNKNOWN READER OUTPUT : " + CpcBytes.byteArrayToString(unknownFrame,
+                        unknownFrame.length), false);
                 break;
 
             case SWITCH_RF_ON_OFF:

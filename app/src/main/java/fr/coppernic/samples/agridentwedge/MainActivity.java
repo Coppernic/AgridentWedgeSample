@@ -64,9 +64,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_tune:
-                startActivity(new Intent(this, SampleActivity.class));
+        if (item.getItemId() == R.id.action_tune) {
+            startActivity(new Intent(this, SampleActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }
