@@ -6,27 +6,23 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+import com.google.android.material.snackbar.Snackbar;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import fr.coppernic.sdk.core.Defines;
 import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
     private static final String AGRIDENT_WEDGE = "fr.coppernic.tools.cpcagridentwedge";
 
-    @BindView(R.id.tvDataReadValue)
     TextView tvDataReadValue;
-    @BindView(R.id.etDataRead)
     EditText etDataRead;
     private BroadcastReceiver agridentReceiver = new BroadcastReceiver() {
         @Override
@@ -52,8 +48,14 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // Butterknife binding
-        ButterKnife.bind(this);
-
+        tvDataReadValue = findViewById(R.id.tvDataReadValue);
+        etDataRead = findViewById(R.id.etDataRead);
+        findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startAgridentWedge(view);
+            }
+        });
     }
 
     @Override
@@ -89,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
     }
 
-    @OnClick(R.id.fab)
     void startAgridentWedge(View v) {
         // Checks if Agrident Wedge is installed, if not, displays an error message
         if (!isAppInstalled(this, AGRIDENT_WEDGE)) {
