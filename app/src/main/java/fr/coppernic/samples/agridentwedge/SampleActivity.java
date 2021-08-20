@@ -2,11 +2,10 @@ package fr.coppernic.samples.agridentwedge;
 
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -58,8 +57,6 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
 
     private Parameters currentParam = null;
 
-    public static final String ACTION_SERVICE_STOP = "fr.coppernic.intent.action.stop.agrident.service";
-    public static final String ACTION_SERVICE_START = "fr.coppernic.intent.action.start.agrident.service";
     public Context context;
 
     private ActivitySampleBinding binding;
@@ -116,8 +113,12 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
         Intent intent = new Intent();
         intent.setPackage("fr.coppernic.tools.cpcagridentwedge");
         intent.setComponent(new ComponentName("fr.coppernic.tools.cpcagridentwedge", "fr.coppernic.tools.cpcagridentwedge.service.WedgeService"));
-        intent.setAction(ACTION_SERVICE_STOP);
-        startService(intent);
+        intent.setAction(Defines.IntentDefines.ACTION_AGRIDENT_SERVICE_STOP);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(intent);
+        } else {
+            startService(intent);
+        }
         SystemClock.sleep(1000);
     }
 
@@ -361,12 +362,7 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
                 addLog("Set config NOK", false);
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.cancel();
-            }
-        });
+        builder.setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.cancel());
         builder.show();
     }
 
@@ -410,7 +406,7 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
 
     @Override
     public void onReaderInformationReceived(ReaderInformation readerInformation, int i) {
-        Log.d("SampleACtivity", "name : " + readerInformation.name() + "value" + readerInformation.toString());
+        Timber.d("name : " + readerInformation.name() + "value" + readerInformation.toString());
         switch (readerInformation.name()) {
             case "AMPLITUDE":
                 updateTextView(binding.tvAmplitude, i + "mV");
@@ -470,7 +466,7 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
                                     tagReadCount = 0;
                                     addLog("", false);
                                     addLog("TAG type : " + CpcBytes.byteArrayToString(sDataRead.getTagType(), sDataRead.getTagType().length), false);
-                                    addLog("Country : " + String.valueOf(myIso11784Data.getCountryCode()), false);
+                                    addLog("Country : " + myIso11784Data.getCountryCode(), false);
                                     addLog("TAG ID : " + lastTagId, false);
                                     addLog("ISO11784 standard :", false);
                                     addLog("Count : " + tagReadCount, false);

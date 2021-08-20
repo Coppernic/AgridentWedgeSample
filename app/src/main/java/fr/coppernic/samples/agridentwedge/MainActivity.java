@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     TextView tvDataReadValue;
     EditText etDataRead;
-    private BroadcastReceiver agridentReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver agridentReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Clears keyboard wedge edit text
@@ -47,15 +47,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Butterknife binding
         tvDataReadValue = findViewById(R.id.tvDataReadValue);
         etDataRead = findViewById(R.id.etDataRead);
-        findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startAgridentWedge(view);
-            }
-        });
+        findViewById(R.id.fab).setOnClickListener(this::startAgridentWedge);
     }
 
     @Override
@@ -66,9 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_tune:
-                startActivity(new Intent(this, SampleActivity.class));
+        if (item.getItemId() == R.id.action_tune) {
+            startActivity(new Intent(this, SampleActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }
