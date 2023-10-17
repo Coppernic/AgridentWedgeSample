@@ -15,7 +15,7 @@ repositories {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 34
     defaultConfig {
         applicationId "fr.coppernic.samples.agridentwedge"
         minSdkVersion 27
@@ -26,6 +26,9 @@ android {
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
         vectorDrawables.useSupportLibrary true
+    }
+    buildFeatures {
+        viewBinding = true
     }
     buildTypes {
         release {
@@ -46,10 +49,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.google.android.material:material:1.10.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-
-    // UI
-    implementation 'com.jakewharton:butterknife:10.2.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     // Timber
     implementation 'com.jakewharton.timber:timber:5.0.1'

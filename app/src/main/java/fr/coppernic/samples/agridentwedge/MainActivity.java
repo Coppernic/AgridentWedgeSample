@@ -15,18 +15,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+import fr.coppernic.samples.agridentwedge.databinding.ActivityMainBinding;
 import fr.coppernic.sdk.core.Defines;
 import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
     private static final String AGRIDENT_WEDGE = "fr.coppernic.tools.cpcagridentwedge";
 
-    @BindView(R.id.tvDataReadValue)
     TextView tvDataReadValue;
-    @BindView(R.id.etDataRead)
     EditText etDataRead;
     private BroadcastReceiver agridentReceiver = new BroadcastReceiver() {
         @Override
@@ -44,17 +40,36 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    private ActivityMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+        Toolbar toolbar = binding.toolbar;
         setSupportActionBar(toolbar);
 
-        // Butterknife binding
-        ButterKnife.bind(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        tvDataReadValue = binding.include.tvDataReadValue;
+        etDataRead = binding.include.etDataRead;
+        binding.fab.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startAgridentWedge(view);
+                    }
+                }
+        );
+
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -89,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
     }
 
-    @OnClick(R.id.fab)
     void startAgridentWedge(View v) {
         // Checks if Agrident Wedge is installed, if not, displays an error message
         if (!isAppInstalled(this, AGRIDENT_WEDGE)) {

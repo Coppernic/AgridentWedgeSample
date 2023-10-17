@@ -10,8 +10,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -25,10 +27,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
-import butterknife.OnClick;
+import fr.coppernic.samples.agridentwedge.databinding.ActivitySampleBinding;
 import fr.coppernic.sdk.agrident.AgridentMessage;
 import fr.coppernic.sdk.agrident.Ascii;
 import fr.coppernic.sdk.agrident.Commands;
@@ -53,78 +52,6 @@ import timber.log.Timber;
 
 public class SampleActivity extends AppCompatActivity implements PowerListener, InstanceListener<Reader>, OnDataReceivedListener {
 
-    @BindView(R.id.tvMessage)
-    TextView tvMessage;
-    @BindView(R.id.btnOpenClose)
-    Button btnOpenClose;
-    @BindView(R.id.spBaudrate)
-    Spinner spBaudrate;
-    @BindView(R.id.btnClear)
-    ImageButton btnClear;
-    @BindView(R.id.tvFirmwareValue)
-    TextView tvFirmware;
-    @BindView(R.id.tvSerialNumberValue)
-    TextView tvSerialNumber;
-    @BindView(R.id.tvAmplitudeValue)
-    TextView tvAmplitude;
-    @BindView(R.id.tvRSSIValue)
-    TextView tvRSSI;
-    @BindView(R.id.tvFdxRssiValue)
-    TextView tvFdxRssi;
-    @BindView(R.id.tvHdxRssiValue)
-    TextView tvHdxRssi;
-    @BindView(R.id.tvHdxFreqValue)
-    TextView tvHdxFreq;
-    @BindView(R.id.tvOutputValue)
-    TextView tvOutput;
-    @BindView(R.id.btnEditOutput)
-    ImageButton btnEditOutput;
-    @BindView((R.id.btnGetOutput))
-    ImageView btnGetOutput;
-    @BindView(R.id.tvTagTypeValue)
-    TextView tvTagType;
-    @BindView(R.id.btnEditTagType)
-    ImageButton btnEditTagType;
-    @BindView((R.id.btnGetTagType))
-    ImageView btnGetTagType;
-    @BindView(R.id.tvTimeoutValue)
-    TextView tvTimeout;
-    @BindView(R.id.btnEditTimeout)
-    ImageButton btnEditTimeout;
-    @BindView((R.id.btnGetTimeout))
-    ImageView btnGetTimeout;
-    @BindView(R.id.tvBaudrateValue)
-    TextView tvBaudrate;
-    @BindView(R.id.btnEditBaudrate)
-    ImageButton btnEditBaudrate;
-    @BindView((R.id.btnGetBaudrate))
-    ImageView btnGetBaudrate;
-    @BindView(R.id.tvDelayTimeValue)
-    TextView tvDelayTime;
-    @BindView(R.id.btnEditDelayTime)
-    ImageButton btnEditDelayTime;
-    @BindView((R.id.btnGetDelayTime))
-    ImageView btnGetDelayTime;
-    @BindView(R.id.btnGetFirmware)
-    ImageButton btnGetFirmware;
-    @BindView(R.id.btnGetSerialNumber)
-    ImageButton btnGetSerialNumber;
-    @BindView(R.id.btnGetAmplitude)
-    ImageButton btnGetAmplitude;
-    @BindView(R.id.btnGetRssi)
-    ImageButton btnGetRssi;
-    @BindView(R.id.btnGetFDXRssi)
-    ImageButton btnGetFDXRssi;
-    @BindView(R.id.btnGetHDXRssi)
-    ImageButton btnGetHDXRssi;
-    @BindView(R.id.btnGetHDXFreq)
-    ImageButton btnGetHDXFreq;
-    @BindView(R.id.swRFField)
-    Switch swRFIDField;
-
-
-    private List<Parameters> parametersList = new ArrayList<>();
-    private RecyclerView recyclerView;
     // RFID Reader interface
     private Reader reader = null;
     private boolean isPortOpened = false;
@@ -143,14 +70,18 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
     public static final String ACTION_SERVICE_START = "fr.coppernic.intent.action.start.agrident.service";
     public Context context;
 
+    private ActivitySampleBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sample);
+        binding = ActivitySampleBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+
+        setContentView(view);
 
         PowerManager.get().registerListener(this);
-        // Butterknife binding
-        ButterKnife.bind(this);
+
         ConePeripheral.RFID_AGRIDENT_ABR200_GPIO.on(this);
         context = this;
     }
@@ -201,18 +132,98 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
         super.onResume();
         Timber.d("onResume");
         ConePeripheral.RFID_AGRIDENT_ABR200_GPIO.on(this);
+
+
+
+
+
+        binding.btnClear.setOnClickListener(
+                view -> clear()
+        );
+
+        binding.btnGetFirmware.setOnClickListener(
+                view -> displayFirmware()
+        );
+
+        binding.btnGetSerialNumber.setOnClickListener(
+                view -> displaySN()
+        );
+
+        binding.btnGetAmplitude.setOnClickListener(
+                view -> displayAmplitude()
+        );
+
+        binding.btnGetRssi.setOnClickListener(
+                view -> displayRSSI()
+        );
+
+        binding.btnGetFDXRssi.setOnClickListener(
+                view -> displayFdxRssi()
+        );
+
+        binding.btnGetHDXRssi.setOnClickListener(
+                view -> displayHdxRssi()
+        );
+
+        binding.btnGetHDXFreq.setOnClickListener(
+                view -> displayHdxFreq()
+        );
+
+        binding.btnEditOutput.setOnClickListener(
+                view -> editOutput()
+        );
+
+        binding.btnGetOutput.setOnClickListener(
+                view -> getOutputFormat()
+        );
+
+        binding.btnEditTagType.setOnClickListener(
+                view -> editTagType()
+        );
+
+        binding.btnGetTagType.setOnClickListener(
+                view -> getTagType()
+        );
+
+        binding.btnEditTimeout.setOnClickListener(
+                view -> editTimeout()
+        );
+
+        binding.btnGetTimeout.setOnClickListener(
+                view -> getTimeout()
+        );
+
+        binding.btnEditBaudrate.setOnClickListener(
+                view -> editBaudrate()
+        );
+
+        binding.btnGetBaudrate.setOnClickListener(
+                view -> getBaudrate()
+        );
+
+        binding.btnEditDelayTime.setOnClickListener(
+                view -> editDelayTime()
+        );
+
+        binding.btnGetDelayTime.setOnClickListener(
+                view -> getDelayTime()
+        );
+
+        binding.swRFField.setOnCheckedChangeListener(
+                (compoundButton, b) -> SwitchRfChange()
+        );
+
     }
 
-    @OnClick(R.id.btnOpenClose)
     void OpenClose() {
         if (reader != null) {
             if (!isPortOpened) {
-                int baudRate = Integer.valueOf(spBaudrate.getSelectedItem().toString());
+                int baudRate = Integer.valueOf(binding.spBaudrate.getSelectedItem().toString());
 
                 CpcResult.RESULT res = reader.open(Defines.SerialDefines.AGRIDENT_READER_PORT, baudRate);
 
                 if (res == CpcResult.RESULT.OK) {
-                    btnOpenClose.setText(R.string.close);
+                    binding.btnOpenClose.setText(R.string.close);
                     isPortOpened = true;
                     if (CpcResult.RESULT.OK != reader.sendCommand(Commands.GET_RF_ACTIVATION_CMD)) {
                         addLog("Fail to get RFID field state", false);
@@ -222,110 +233,104 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
                 }
             } else {
                 reader.close();
-                btnOpenClose.setText(R.string.open);
+                binding.btnOpenClose.setText(R.string.open);
                 isPortOpened = false;
             }
         }
     }
 
-    @OnClick(R.id.btnClear)
+
     void clear() {
-        tvMessage.setText("");
+        binding.tvMessage.setText("");
     }
 
-    @OnClick(R.id.btnGetFirmware)
+
     void displayFirmware() {
         reader.sendCommand(Commands.FIRMWARE_CMD);
     }
 
-    @OnClick(R.id.btnGetSerialNumber)
+
     void displaySN() {
         reader.sendCommand(Commands.SNR_CMD);
     }
 
-    @OnClick(R.id.btnGetAmplitude)
+
     void displayAmplitude() {
         reader.sendCommand(Commands.GET_AMPLITUDE_CMD);
     }
 
-    @OnClick(R.id.btnGetRssi)
+
     void displayRSSI() {
         reader.sendCommand(Commands.GET_RSSI_CMD);
     }
 
-    @OnClick(R.id.btnGetFDXRssi)
+
     void displayFdxRssi() {
         reader.sendCommand(Commands.GET_AVERAGE_FDX_RSSI_CMD);
     }
 
-    @OnClick(R.id.btnGetHDXRssi)
+
     void displayHdxRssi() {
         reader.sendCommand(Commands.GET_AVERAGE_HDX_RSSI_CMD);
     }
 
-    @OnClick(R.id.btnGetHDXFreq)
+
     void displayHdxFreq() {
         reader.sendCommand(Commands.GET_AVERAGE_HDX_FRQ_CMD);
     }
 
-    @OnClick(R.id.btnEditOutput)
+
     void editOutput() {
-        showDialog(new Parameters(Parameters.OUTPUT_FORMAT), tvOutput, OutputFormat.ASCII, "Output Format");
+        showDialog(new Parameters(Parameters.OUTPUT_FORMAT), binding.tvOutput, OutputFormat.ASCII, "Output Format");
     }
 
-    @OnClick(R.id.btnGetOutput)
+
     void getOutputFormat() {
         currentParam = new Parameters(Parameters.OUTPUT_FORMAT);
         reader.getConfig(new Parameters(Parameters.OUTPUT_FORMAT));
     }
 
-    @OnClick(R.id.btnEditTagType)
+
     void editTagType() {
-        showDialog(new Parameters(Parameters.TAG_TYPE), tvTagType, TagTypes.FDX_B, "Tag Type");
+        showDialog(new Parameters(Parameters.TAG_TYPE), binding.tvTagType, TagTypes.FDX_B, "Tag Type");
     }
 
-    @OnClick(R.id.btnGetTagType)
+
     void getTagType() {
         currentParam = new Parameters(Parameters.TAG_TYPE);
         reader.getConfig(new Parameters(Parameters.TAG_TYPE));
     }
 
-    @OnClick(R.id.btnEditTimeout)
+
     void editTimeout() {
-        showDialog(new Parameters(Parameters.TIMING), tvTimeout, Timing.VARIABLE_TIMING, "Timing");
+        showDialog(new Parameters(Parameters.TIMING), binding.tvTimeout, Timing.VARIABLE_TIMING, "Timing");
     }
 
-    @OnClick(R.id.btnGetTimeout)
     void getTimeout() {
         currentParam = new Parameters(Parameters.TIMING);
         reader.getConfig(new Parameters(Parameters.TIMING));
     }
 
-    @OnClick(R.id.btnEditBaudrate)
     void editBaudrate() {
-        showDialog(new Parameters(Parameters.BAUDRATE), tvBaudrate, BaudRate.B9600, "BaudRate");
+        showDialog(new Parameters(Parameters.BAUDRATE), binding.tvBaudrate, BaudRate.B9600, "BaudRate");
     }
 
-    @OnClick(R.id.btnGetBaudrate)
     void getBaudrate() {
         currentParam = new Parameters(Parameters.BAUDRATE);
         reader.getConfig(new Parameters(Parameters.BAUDRATE));
     }
 
-    @OnClick(R.id.btnEditDelayTime)
     void editDelayTime() {
-        showDialog(new Parameters(Parameters.DELAYTIME), tvDelayTime, null, "Delay Time");
+        showDialog(new Parameters(Parameters.DELAYTIME), binding.tvDelayTime, null, "Delay Time");
     }
 
-    @OnClick(R.id.btnGetDelayTime)
     void getDelayTime() {
         currentParam = new Parameters(Parameters.DELAYTIME);
         reader.getConfig(new Parameters(Parameters.DELAYTIME));
     }
 
-    @OnCheckedChanged(R.id.swRFField)
     void SwitchRfChange() {
-        if (swRFIDField.isChecked()) {
+        if (binding.swRFField.isChecked()) {
             reader.sendCommand(Commands.SET_RF_ON_CMD);
         } else {
             reader.sendCommand(Commands.SET_RF_OFF_CMD);
@@ -451,12 +456,12 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
 
     @Override
     public void onFirmwareReceived(final String s, CpcResult.RESULT result) {
-        updateTextView(tvFirmware, s);
+        updateTextView(binding.tvFirmware, s);
     }
 
     @Override
     public void onSerialNumberReceived(final String s, CpcResult.RESULT result) {
-        updateTextView(tvSerialNumber, s);
+        updateTextView(binding.tvSerialNumberValue, s);
     }
 
     @Override
@@ -489,19 +494,19 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
         Log.d("SampleACtivity", "name : " + readerInformation.name() + "value" + readerInformation.toString());
         switch (readerInformation.name()) {
             case "AMPLITUDE":
-                updateTextView(tvAmplitude, i + "mV");
+                updateTextView(binding.tvAmplitude, i + "mV");
                 break;
             case "RSSI":
-                updateTextView(tvRSSI, i + " mv");
+                updateTextView(binding.tvRssi, i + " mv");
                 break;
             case "AVERAGE_HDX_FREQ":
-                updateTextView(tvHdxFreq, i + "Hz");
+                updateTextView(binding.tvHdxFreq, i + "Hz");
                 break;
             case "AVERAGE_HDX_RSSI":
-                updateTextView(tvHdxRssi, i + "mv");
+                updateTextView(binding.tvHdxRssi, i + "mv");
                 break;
             case "AVERAGE_FDX_RSSI":
-                updateTextView(tvFdxRssi, i + "mv");
+                updateTextView(binding.tvFdxRssi, i + "mv");
                 break;
         }
     }
@@ -645,10 +650,10 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
             case GET_RF_STATE_RESULT:
                 if (agridentMsg.isAck()) {
                     if (1 == agridentMsg.getParameterValue()) {
-                        swRFIDField.setChecked(true);
+                        binding.swRFField.setChecked(true);
                         addLog("RF is Activated", false);
                     } else {
-                        swRFIDField.setChecked(false);
+                        binding.swRFField.setChecked(false);
                         addLog("RF is NOT Activated", false);
                     }
                 } else {
@@ -689,17 +694,17 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
                 BaudRate[] baudRates = BaudRate.values();
                 for (BaudRate baudRate : baudRates) {
                     if (baudRate.getValue() == currentParam.getValue())
-                        updateTextView(tvBaudrate, baudRate.toString());
+                        updateTextView(binding.tvBaudrate, baudRate.toString());
                 }
                 break;
             case Parameters.DELAYTIME:
-                updateTextView(tvDelayTime, Integer.toHexString(currentParam.getValue()));
+                updateTextView(binding.tvDelayTime, Integer.toHexString(currentParam.getValue()));
                 break;
             case Parameters.OUTPUT_FORMAT:
                 OutputFormat[] outputArray = OutputFormat.values();
                 for (OutputFormat output : outputArray) {
                     if (output.getValue() == currentParam.getValue())
-                        updateTextView(tvOutput, output.toString());
+                        updateTextView(binding.tvOutput, output.toString());
                 }
 
                 break;
@@ -707,14 +712,14 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
                 TagTypes[] tagTypes = TagTypes.values();
                 for (TagTypes tagType : tagTypes) {
                     if (tagType.getValue() == currentParam.getValue())
-                        updateTextView(tvTagType, tagType.toString());
+                        updateTextView(binding.tvTagType, tagType.toString());
                 }
                 break;
             case Parameters.TIMING:
                 Timing[] timings = Timing.values();
                 for (Timing timing : timings) {
                     if (timing.getValue() == currentParam.getValue())
-                        updateTextView(tvTimeout, timing.toString());
+                        updateTextView(binding.tvTimeout, timing.toString());
                 }
                 break;
         }
@@ -743,7 +748,7 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
         int maxLogLines = 2500;
         int linesToRemove = 500;
         String log;
-        String previousLog = tvMessage.getText().toString();
+        String previousLog = binding.tvMessage.getText().toString();
 
         if (previousLog.length() > maxLogLines) {
             previousLog = previousLog.substring(0, previousLog.length() - linesToRemove);
@@ -754,10 +759,10 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
         if ((previousLog.length() > 10) && (isTagCount)) {
             previousLog = previousLog.substring(previousLog.indexOf("\r\n"));
             log = s + previousLog;
-            tvMessage.setText(log);
+            binding.tvMessage.setText(log);
         } else {
             log = s + "\r\n" + previousLog;
-            tvMessage.setText(log);
+            binding.tvMessage.setText(log);
         }
     }
 
@@ -768,7 +773,7 @@ public class SampleActivity extends AppCompatActivity implements PowerListener, 
     private void closePort() {
         if (reader != null) {
             reader.close();
-            btnOpenClose.setText(R.string.open);
+            binding.btnOpenClose.setText(R.string.open);
             isPortOpened = false;
 
             // ConePeripheral.RFID_AGRIDENT_ABR200_GPIO.off(this);
