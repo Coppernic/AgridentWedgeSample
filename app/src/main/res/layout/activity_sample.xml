@@ -227,7 +227,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:text="@string/firmware"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/btnGetFirmware"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -237,7 +237,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:text="@string/serial_number"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/btnGetSerialNumber"
                     app:layout_constraintTop_toBottomOf="@+id/tvFirmware" />
 
                 <TextView
@@ -247,7 +247,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:text="@string/amplitude"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/btnGetAmplitude"
                     app:layout_constraintTop_toBottomOf="@+id/tvSn" />
 
                 <TextView
@@ -257,7 +257,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:text="@string/rssi"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/btnGetRssi"
                     app:layout_constraintTop_toBottomOf="@+id/tvAmplitude" />
 
                 <TextView
@@ -266,7 +266,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="@string/n_a"
-                    app:layout_constraintStart_toEndOf="@+id/barrier"
+                    app:layout_constraintStart_toEndOf="@+id/tvFirmware"
                     app:layout_constraintTop_toTopOf="@+id/tvFirmware" />
 
                 <TextView
@@ -284,7 +284,7 @@
                     android:layout_height="17dp"
                     android:layout_marginStart="8dp"
                     android:text="@string/n_a"
-                    app:layout_constraintStart_toEndOf="@+id/barrier"
+                    app:layout_constraintStart_toEndOf="@+id/tvAmplitude"
                     app:layout_constraintTop_toTopOf="@+id/tvAmplitude" />
 
                 <TextView
@@ -293,7 +293,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="@string/n_a"
-                    app:layout_constraintStart_toEndOf="@+id/barrier"
+                    app:layout_constraintStart_toEndOf="@+id/tvRssi"
                     app:layout_constraintTop_toTopOf="@+id/tvRssi" />
 
                 <TextView
@@ -303,7 +303,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:text="@string/fdx_rssi"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/btnGetFDXRssi"
                     app:layout_constraintTop_toBottomOf="@+id/tvRssi" />
 
                 <TextView
@@ -312,7 +312,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="@string/n_a"
-                    app:layout_constraintStart_toEndOf="@+id/barrier"
+                    app:layout_constraintStart_toEndOf="@+id/tvFdxRssi"
                     app:layout_constraintTop_toTopOf="@+id/tvFdxRssi" />
 
                 <TextView
@@ -322,7 +322,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:text="@string/hdx_rssi"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/btnGetHDXRssi"
                     app:layout_constraintTop_toBottomOf="@+id/tvFdxRssi" />
 
                 <TextView
@@ -331,7 +331,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="@string/n_a"
-                    app:layout_constraintStart_toEndOf="@+id/barrier"
+                    app:layout_constraintStart_toEndOf="@+id/tvHdxRssi"
                     app:layout_constraintTop_toTopOf="@+id/tvHdxRssi" />
 
                 <TextView
@@ -341,7 +341,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:text="@string/hdx_freq"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/btnGetHDXFreq"
                     app:layout_constraintTop_toBottomOf="@+id/tvHdxRssi" />
 
                 <TextView
@@ -350,7 +350,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="@string/n_a"
-                    app:layout_constraintStart_toEndOf="@+id/barrier"
+                    app:layout_constraintStart_toEndOf="@+id/tvHdxFreq"
                     app:layout_constraintTop_toTopOf="@+id/tvHdxFreq" />
 
                 <ImageButton
@@ -371,7 +371,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginStart="8dp"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/btnEditOutput"
                     app:layout_constraintTop_toBottomOf="@+id/tvHdxFreq" />
 
                 <TextView
@@ -380,7 +380,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    app:layout_constraintStart_toEndOf="@+id/barrier"
+                    app:layout_constraintStart_toEndOf="@+id/tvOutput"
                     app:layout_constraintTop_toTopOf="@+id/tvOutput" />
 
                 <androidx.constraintlayout.widget.Barrier
@@ -411,7 +411,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:text="@string/tag_type"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/btnEditTagType"
                     app:layout_constraintTop_toBottomOf="@+id/tvOutput" />
 
                 <TextView
@@ -421,7 +421,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:text="@string/timeout"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/btnEditTimeout"
                     app:layout_constraintTop_toBottomOf="@+id/tvTagType" />
 
                 <TextView
@@ -431,7 +431,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:text="@string/baudrate"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/btnEditBaudrate"
                     app:layout_constraintTop_toBottomOf="@+id/tvTimeout" />
 
                 <TextView
@@ -441,7 +441,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:text="@string/delay_time"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/btnEditDelayTime"
                     app:layout_constraintTop_toBottomOf="@+id/tvBaudrate" />
 
                 <TextView
@@ -450,7 +450,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="@string/n_a"
-                    app:layout_constraintStart_toEndOf="@+id/barrier"
+                    app:layout_constraintStart_toEndOf="@+id/tvTagType"
                     app:layout_constraintTop_toTopOf="@+id/tvTagType" />
 
                 <TextView
@@ -459,7 +459,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="@string/n_a"
-                    app:layout_constraintStart_toEndOf="@+id/barrier"
+                    app:layout_constraintStart_toEndOf="@+id/tvTimeout"
                     app:layout_constraintTop_toTopOf="@+id/tvTimeout" />
 
                 <TextView
@@ -468,7 +468,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="@string/n_a"
-                    app:layout_constraintStart_toEndOf="@+id/barrier"
+                    app:layout_constraintStart_toEndOf="@+id/tvBaudrate"
                     app:layout_constraintTop_toTopOf="@+id/tvBaudrate" />
 
                 <TextView
@@ -477,7 +477,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="@string/n_a"
-                    app:layout_constraintStart_toEndOf="@+id/barrier"
+                    app:layout_constraintStart_toEndOf="@+id/tvDelayTime"
                     app:layout_constraintTop_toTopOf="@+id/tvDelayTime" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
