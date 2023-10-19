@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import fr.coppernic.samples.agridentwedge.databinding.ActivityMainBinding
 import fr.coppernic.sdk.core.Defines
+import fr.coppernic.sdk.utils.helpers.OsHelper
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
@@ -83,14 +84,17 @@ class MainActivity : AppCompatActivity() {
 
     fun startAgridentWedge(v: View?) {
         // Checks if Agrident Wedge is installed, if not, displays an error message
-        if (!isAppInstalled(this, AGRIDENT_WEDGE)) {
+
+        val servicePackageName = OsHelper.getSystemServicePackage(this, AGRIDENT_WEDGE)
+
+        if (!isAppInstalled(this, servicePackageName)) {
             Snackbar.make(v!!, "Error: Agrident Wedge is not installed", Snackbar.LENGTH_SHORT)
                 .show()
             return
         }
 
         // Starts Agrident wedge
-        val launchIntent = packageManager.getLaunchIntentForPackage(AGRIDENT_WEDGE)
+        val launchIntent = packageManager.getLaunchIntentForPackage(servicePackageName)
         launchIntent?.let { startActivity(it) }
     }
 
