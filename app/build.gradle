@@ -10,6 +10,7 @@ repositories {
     google()
     jcenter()
     mavenCentral()
+    mavenLocal()
     maven { url 'https://jitpack.io' }
 //    mavenLocal()
 }
@@ -55,8 +56,8 @@ dependencies {
 
     // Coppernic
     implementation 'fr.coppernic.sdk.cpcutils:CpcUtilsLib:6.21.0'
-    implementation 'fr.coppernic.sdk.core:CpcCore:3.2.0'
-    implementation 'fr.coppernic.sdk.agrident:CpcAgrident:2.0.3'
+    implementation 'fr.coppernic.sdk.core:CpcCore:agridentAccess'
+    implementation 'fr.coppernic.sdk.agrident:CpcAgrident:updateAndroidVersion'
 
     testImplementation 'junit:junit:4.13.2'
 

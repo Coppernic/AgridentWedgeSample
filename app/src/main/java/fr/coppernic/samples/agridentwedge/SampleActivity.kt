@@ -33,14 +33,13 @@ import fr.coppernic.sdk.core.Defines
 import fr.coppernic.sdk.power.PowerManager
 import fr.coppernic.sdk.power.api.PowerListener
 import fr.coppernic.sdk.power.api.peripheral.Peripheral
-import fr.coppernic.sdk.power.impl.cone.ConePeripheral
+import fr.coppernic.sdk.power.impl.access.AccessPeripheral
 import fr.coppernic.sdk.utils.core.CpcBytes
 import fr.coppernic.sdk.utils.core.CpcResult.RESULT
 import fr.coppernic.sdk.utils.io.InstanceListener
 import timber.log.Timber
 import java.io.IOException
 import java.io.UnsupportedEncodingException
-import java.nio.charset.Charset
 
 class SampleActivity : AppCompatActivity(), PowerListener, InstanceListener<Reader>,
     OnDataReceivedListener {
@@ -64,7 +63,7 @@ class SampleActivity : AppCompatActivity(), PowerListener, InstanceListener<Read
         val view: View = binding.root
         setContentView(view)
         PowerManager.get().registerListener(this)
-        ConePeripheral.RFID_AGRIDENT_ABR200_GPIO.on(this)
+        AccessPeripheral.RFID_AGRIDENT_ABR200_GPIO.on(this)
         context = this
     }
 
@@ -105,9 +104,10 @@ class SampleActivity : AppCompatActivity(), PowerListener, InstanceListener<Read
     override fun onResume() {
         super.onResume()
         Timber.d("onResume")
-        ConePeripheral.RFID_AGRIDENT_ABR200_GPIO.on(this)
+        AccessPeripheral.RFID_AGRIDENT_ABR200_GPIO.on(this)
 
         with(binding) {
+            btnOpenClose.setOnClickListener { OpenClose() }
             btnClear.setOnClickListener { clear() }
             btnGetFirmware.setOnClickListener { displayFirmware() }
             btnGetSerialNumber.setOnClickListener { displaySN() }
@@ -129,9 +129,7 @@ class SampleActivity : AppCompatActivity(), PowerListener, InstanceListener<Read
             swRFField.setOnCheckedChangeListener { _: CompoundButton?, _: Boolean ->
                     SwitchRfChange()
             }
-
         }
-
     }
 
     fun OpenClose() {
