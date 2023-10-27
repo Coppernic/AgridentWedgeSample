@@ -56,8 +56,8 @@ dependencies {
 
     // Coppernic
     implementation 'fr.coppernic.sdk.cpcutils:CpcUtilsLib:6.21.0'
-    implementation 'fr.coppernic.sdk.core:CpcCore:agridentAccess'
-    implementation 'fr.coppernic.sdk.agrident:CpcAgrident:updateAndroidVersion'
+    implementation 'fr.coppernic.sdk.core:CpcCore:3.2.1'
+    implementation 'fr.coppernic.sdk.agrident:CpcAgrident:3.0.0'
 
     testImplementation 'junit:junit:4.13.2'
 
